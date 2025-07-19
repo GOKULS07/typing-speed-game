@@ -8,20 +8,21 @@
 </head>
 <body>
   <div class="container">
-    <h1>🎯 Typing Speed Challenge</h1>
-    <div class="game-box">
-      <div class="quote-box">
-        <p id="quote" class="quote"></p>
-      </div>
-      <textarea id="input" placeholder="Start typing here..."></textarea>
-      <div class="info">
-        <div><span>⏳ Time:</span> <span id="time">60</span>s</div>
-        <div><span>🚀 WPM:</span> <span id="wpm">0</span></div>
-        <div><span>✅ Score:</span> <span id="score">0</span></div>
-      </div>
-      <button id="reset">🔁 Restart Game</button>
+    <h1>🎯 Typing Speed Game</h1>
+
+    <div class="quote-box" id="quote"></div>
+
+    <textarea id="input" placeholder="Start typing here..." autofocus></textarea>
+
+    <div class="info">
+      <p><strong>⏳ Time:</strong> <span id="time">60</span>s</p>
+      <p><strong>✅ Score:</strong> <span id="score">0</span></p>
+      <p><strong>🚀 WPM:</strong> <span id="wpm">0</span></p>
     </div>
+
+    <button id="reset">🔁 Restart Game</button>
   </div>
+
   <script src="script.js"></script>
 </body>
 </html>
