@@ -1,85 +1,104 @@
-const quotes = [
-  "Typing fast is a superpower in the digital age.",
-  "Practice makes perfect, even for typing speed.",
-  "JavaScript is fun when you get the hang of it.",
-  "Front-end development is all about creativity.",
-  "Stay focused and type with precision."
-];
-
-const quoteEl = document.getElementById("quote");
-const inputEl = document.getElementById("input");
-const timeEl = document.getElementById("time");
-const wpmEl = document.getElementById("wpm");
-const scoreEl = document.getElementById("score");
-const resetBtn = document.getElementById("reset");
-
-let currentQuote = "";
-let timeLeft = 60;
-let timer;
-let isRunning = false;
-let score = 0;
-
-function getRandomQuote() {
-  return quotes[Math.floor(Math.random() * quotes.length)];
+* {
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+  font-family: 'Poppins', sans-serif;
 }
 
-function loadQuote() {
-  currentQuote = getRandomQuote();
-  quoteEl.textContent = currentQuote;
-  inputEl.value = "";
-  inputEl.focus();
+body {
+  background: linear-gradient(135deg, #8e44ad, #3498db);
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  color: #fff;
 }
 
-function startGame() {
-  if (!isRunning) {
-    isRunning = true;
-    timer = setInterval(() => {
-      timeLeft--;
-      timeEl.textContent = timeLeft;
-      updateWPM();
-      if (timeLeft <= 0) {
-        clearInterval(timer);
-        inputEl.disabled = true;
-        quoteEl.textContent = "⏱️ Time’s up!";
-      }
-    }, 1000);
+.container {
+  background: #1e1e2f;
+  padding: 30px;
+  border-radius: 15px;
+  width: 100%;
+  max-width: 600px;
+  box-shadow: 0 0 40px rgba(0, 0, 0, 0.5);
+}
+
+h1 {
+  text-align: center;
+  margin-bottom: 20px;
+  font-size: 2rem;
+  color: #f1c40f;
+}
+
+.game-box {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.quote-box {
+  background: #2c3e50;
+  padding: 15px;
+  border-radius: 10px;
+  font-size: 1.1rem;
+  min-height: 90px;
+}
+
+textarea {
+  width: 100%;
+  height: 100px;
+  font-size: 1rem;
+  padding: 10px;
+  border: none;
+  border-radius: 10px;
+  outline: none;
+  background: #ecf0f1;
+  color: #2c3e50;
+  resize: none;
+}
+
+textarea.correct {
+  border: 3px solid #2ecc71;
+}
+
+textarea.incorrect {
+  border: 3px solid #e74c3c;
+}
+
+.info {
+  display: flex;
+  justify-content: space-between;
+  font-size: 1.1rem;
+  background: #34495e;
+  padding: 10px 15px;
+  border-radius: 10px;
+  color: #fff;
+}
+
+button#reset {
+  padding: 12px 25px;
+  font-size: 1rem;
+  background: #f39c12;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: 0.3s ease;
+  color: #fff;
+}
+
+button#reset:hover {
+  background: #d35400;
+}
+
+@media (max-width: 500px) {
+  .info {
+    flex-direction: column;
+    gap: 10px;
+    align-items: center;
+  }
+
+  textarea {
+    height: 80px;
   }
 }
-
-function updateWPM() {
-  const wordsTyped = score * currentQuote.split(" ").length;
-  const minutes = (60 - timeLeft) / 60;
-  const wpm = minutes > 0 ? Math.round(wordsTyped / minutes) : 0;
-  wpmEl.textContent = wpm;
-}
-
-inputEl.addEventListener("input", () => {
-  startGame();
-
-  const typedText = inputEl.value;
-  const isCorrect = currentQuote.startsWith(typedText);
-
-  inputEl.classList.remove("correct", "incorrect");
-  if (typedText === currentQuote) {
-    score++;
-    scoreEl.textContent = score;
-    loadQuote();
-  } else {
-    inputEl.classList.add(isCorrect ? "correct" : "incorrect");
-  }
-});
-
-resetBtn.addEventListener("click", () => {
-  clearInterval(timer);
-  timeLeft = 60;
-  isRunning = false;
-  score = 0;
-  inputEl.disabled = false;
-  timeEl.textContent = "60";
-  wpmEl.textContent = "0";
-  scoreEl.textContent = "0";
-  loadQuote();
-  inputEl.classList.remove("correct", "incorrect");
-});
-
-loadQuote();
