@@ -3,206 +3,161 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>🔥 Typing Speed Challenge</title>
-  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500&family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+  <title>Typing Speed Game</title>
   <style>
     * {
       margin: 0;
       padding: 0;
       box-sizing: border-box;
+      font-family: 'Poppins', sans-serif;
     }
 
     body {
-      font-family: 'Poppins', sans-serif;
-      background: linear-gradient(135deg, #141E30, #243B55);
-      display: flex;
-      justify-content: center;
-      align-items: center;
       min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: linear-gradient(135deg, #6a11cb, #2575fc);
+      color: #fff;
       padding: 2rem;
     }
 
     .container {
-      background: rgba(255, 255, 255, 0.1);
-      border-radius: 1.5rem;
+      background-color: rgba(255, 255, 255, 0.1);
       padding: 2rem;
-      width: 100%;
+      border-radius: 20px;
       max-width: 700px;
-      backdrop-filter: blur(10px);
-      box-shadow: 0 0 30px rgba(0, 0, 0, 0.6);
-      color: #fff;
+      width: 100%;
+      box-shadow: 0 0 30px rgba(0, 0, 0, 0.2);
       text-align: center;
-      animation: fadeIn 1s ease-in-out;
     }
 
     h1 {
-      font-family: 'Orbitron', sans-serif;
       font-size: 2rem;
       margin-bottom: 1rem;
-      color: #00ffcc;
-      letter-spacing: 1px;
     }
 
-    #quote {
-      background: #000;
-      color: #00ff00;
+    .quote {
+      background: rgba(255, 255, 255, 0.15);
+      padding: 1rem;
+      border-radius: 15px;
       font-size: 1.2rem;
-      padding: 1rem;
-      border-radius: 1rem;
-      margin-bottom: 1.5rem;
-      box-shadow: inset 0 0 10px #00ffcc;
-      transition: 0.3s;
-      min-height: 70px;
+      margin-bottom: 1rem;
+      line-height: 1.6;
     }
 
-    #input {
+    input {
       width: 100%;
-      padding: 1rem;
-      border: 2px solid #00b894;
-      border-radius: 1rem;
-      font-size: 1.1rem;
+      padding: 0.8rem 1rem;
+      margin-top: 1rem;
+      font-size: 1rem;
+      border-radius: 10px;
+      border: none;
       outline: none;
-      margin-bottom: 1.2rem;
-      background: #111;
-      color: #fff;
-      transition: 0.3s;
-    }
-
-    #input:focus {
-      border-color: #6c5ce7;
-      box-shadow: 0 0 10px #6c5ce7;
     }
 
     .stats {
+      margin-top: 1.5rem;
       display: flex;
-      justify-content: space-around;
       flex-wrap: wrap;
-      font-weight: 600;
-      margin-bottom: 1.5rem;
-      color: #f1f1f1;
+      justify-content: space-between;
+      gap: 1rem;
+      font-weight: 500;
     }
 
     .stats div {
-      margin: 0.5rem;
-      font-size: 1.1rem;
+      flex: 1 1 45%;
+      background-color: rgba(255, 255, 255, 0.1);
+      padding: 1rem;
+      border-radius: 12px;
     }
 
-    button {
-      background: linear-gradient(45deg, #ff416c, #ff4b2b);
+    .btn {
+      margin-top: 1.5rem;
+      padding: 0.75rem 2rem;
       border: none;
-      padding: 0.9rem 2rem;
-      color: white;
+      border-radius: 12px;
+      background-color: #ff5f6d;
+      background-image: linear-gradient(to right, #ffc371, #ff5f6d);
+      color: #fff;
       font-size: 1rem;
-      font-weight: 600;
-      border-radius: 2rem;
       cursor: pointer;
       transition: 0.3s;
-      box-shadow: 0 0 15px #ff4b2b;
     }
 
-    button:hover {
-      background: linear-gradient(45deg, #00f2fe, #4facfe);
-      box-shadow: 0 0 20px #4facfe;
-      transform: scale(1.05);
+    .btn:hover {
+      opacity: 0.9;
     }
 
-    @media (max-width: 600px) {
-      .stats {
-        flex-direction: column;
-        gap: 0.5rem;
+    @media (max-width: 500px) {
+      .stats div {
+        flex: 1 1 100%;
       }
-    }
-
-    @keyframes fadeIn {
-      0% { opacity: 0; transform: translateY(30px); }
-      100% { opacity: 1; transform: translateY(0); }
     }
   </style>
 </head>
 <body>
+
   <div class="container">
-    <h1>🎯 Typing Speed Challenge</h1>
-    <div id="quote">Loading...</div>
-    <input type="text" id="input" placeholder="Start typing here..." autocomplete="off" />
+    <h1>Typing Speed Game</h1>
+    <p class="quote" id="quote"></p>
+    <input type="text" id="typed-input" placeholder="Start typing here..." />
     <div class="stats">
-      <div>⏱ Time: <span id="time">0</span>s</div>
-      <div>🚀 WPM: <span id="wpm">0</span></div>
-      <div>✅ Score: <span id="score">0</span></div>
+      <div>WPM: <span id="wpm">0</span></div>
+      <div>Accuracy: <span id="accuracy">0</span>%</div>
     </div>
-    <button onclick="resetGame()">🔁 Restart Game</button>
+    <button class="btn" id="restart">Restart</button>
   </div>
 
   <script>
     const quotes = [
-      "The quick brown fox jumps over the lazy dog. Improve your typing speed by practicing daily. Accuracy is as important as speed.",
-      "Code like a poet. Think like a problem solver. Type like a ninja!",
-      "Focus. Type. Improve. Consistency beats intensity.",
-      "Great developers aren't born, they're built—one keystroke at a time.",
-      "Speed is good, accuracy is better. Aim for both."
+      "Speed is the essence of war.",
+      "The quick brown fox jumps over the lazy dog.",
+      "Programming is like writing a book.",
+      "Stay hungry, stay foolish.",
+      "Typing fast is a modern superpower.",
+      "Great developers are great typists.",
+      "Practice makes perfect.",
+      "You miss 100% of the shots you don't take."
     ];
 
-    const quoteEl = document.getElementById('quote');
-    const inputEl = document.getElementById('input');
-    const timeEl = document.getElementById('time');
-    const wpmEl = document.getElementById('wpm');
-    const scoreEl = document.getElementById('score');
+    const quoteEl = document.getElementById("quote");
+    const inputEl = document.getElementById("typed-input");
+    const wpmEl = document.getElementById("wpm");
+    const accEl = document.getElementById("accuracy");
+    const restartBtn = document.getElementById("restart");
 
-    let currentQuote = "";
-    let startTime, timerInterval;
-    let score = 0;
+    let startTime, interval, currentQuote;
 
     function loadQuote() {
       currentQuote = quotes[Math.floor(Math.random() * quotes.length)];
       quoteEl.textContent = currentQuote;
       inputEl.value = "";
-    }
-
-    function startTimer() {
-      startTime = new Date();
-      clearInterval(timerInterval);
-      timerInterval = setInterval(() => {
-        const elapsed = Math.floor((new Date() - startTime) / 1000);
-        timeEl.textContent = elapsed;
-        updateWPM(elapsed);
-      }, 1000);
-    }
-
-    function updateWPM(elapsed) {
-      const wordsTyped = inputEl.value.trim().split(/\s+/).length;
-      if (elapsed > 0) {
-        const wpm = Math.round((wordsTyped / elapsed) * 60);
-        wpmEl.textContent = wpm;
-      }
-    }
-
-    function checkInput() {
-      if (inputEl.value.trim() === currentQuote) {
-        clearInterval(timerInterval);
-        score++;
-        scoreEl.textContent = score;
-        setTimeout(() => {
-          loadQuote();
-          startTimer();
-        }, 400);
-      }
-    }
-
-    function resetGame() {
-      clearInterval(timerInterval);
+      inputEl.focus();
       startTime = null;
-      score = 0;
-      scoreEl.textContent = 0;
       wpmEl.textContent = 0;
-      timeEl.textContent = 0;
-      loadQuote();
+      accEl.textContent = 0;
     }
 
     inputEl.addEventListener("input", () => {
-      if (!startTime) startTimer();
-      checkInput();
+      const typed = inputEl.value;
+      if (!startTime) startTime = new Date();
+
+      const correctChars = [...typed].filter((char, i) => char === currentQuote[i]).length;
+      const accuracy = Math.round((correctChars / typed.length) * 100) || 0;
+
+      const timeElapsed = (new Date() - startTime) / 1000 / 60;
+      const words = typed.trim().split(" ").length;
+      const wpm = Math.round(words / timeElapsed);
+
+      accEl.textContent = accuracy;
+      wpmEl.textContent = timeElapsed > 0.2 ? wpm : 0;
     });
+
+    restartBtn.addEventListener("click", loadQuote);
 
     loadQuote();
   </script>
+
 </body>
 </html>
