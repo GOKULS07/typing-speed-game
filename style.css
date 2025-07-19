@@ -1,91 +1,104 @@
 * {
   box-sizing: border-box;
-  margin: 0;
   padding: 0;
-  font-family: 'Segoe UI', sans-serif;
+  margin: 0;
+  font-family: 'Poppins', sans-serif;
 }
 
 body {
-  background: linear-gradient(135deg, #1e3c72, #2a5298);
-  color: #fff;
-  height: 100vh;
+  background: linear-gradient(135deg, #8e44ad, #3498db);
+  min-height: 100vh;
   display: flex;
   align-items: center;
   justify-content: center;
   padding: 20px;
+  color: #fff;
 }
 
 .container {
-  max-width: 600px;
-  width: 100%;
-  background: #ffffff15;
+  background: #1e1e2f;
   padding: 30px;
   border-radius: 15px;
-  text-align: center;
-  backdrop-filter: blur(10px);
-  box-shadow: 0 0 20px rgba(0,0,0,0.4);
+  width: 100%;
+  max-width: 600px;
+  box-shadow: 0 0 40px rgba(0, 0, 0, 0.5);
 }
 
 h1 {
+  text-align: center;
   margin-bottom: 20px;
   font-size: 2rem;
+  color: #f1c40f;
 }
 
-.quote {
-  background: #222;
+.game-box {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.quote-box {
+  background: #2c3e50;
   padding: 15px;
   border-radius: 10px;
   font-size: 1.1rem;
-  line-height: 1.6;
-  min-height: 80px;
-  margin-bottom: 15px;
+  min-height: 90px;
 }
 
 textarea {
   width: 100%;
-  padding: 12px;
+  height: 100px;
   font-size: 1rem;
-  border-radius: 8px;
+  padding: 10px;
   border: none;
-  resize: none;
+  border-radius: 10px;
   outline: none;
+  background: #ecf0f1;
+  color: #2c3e50;
+  resize: none;
+}
+
+textarea.correct {
+  border: 3px solid #2ecc71;
+}
+
+textarea.incorrect {
+  border: 3px solid #e74c3c;
 }
 
 .info {
-  margin: 20px 0;
   display: flex;
-  justify-content: space-around;
+  justify-content: space-between;
   font-size: 1.1rem;
+  background: #34495e;
+  padding: 10px 15px;
+  border-radius: 10px;
+  color: #fff;
 }
 
-#reset {
-  padding: 10px 25px;
-  background: #ff4081;
-  border: none;
-  color: #fff;
+button#reset {
+  padding: 12px 25px;
   font-size: 1rem;
+  background: #f39c12;
+  border: none;
   border-radius: 8px;
   cursor: pointer;
   transition: 0.3s ease;
-}
-
-#reset:hover {
-  background: #f50057;
-}
-
-.correct {
-  background: #2e7d32;
   color: #fff;
 }
 
-.incorrect {
-  background: #c62828;
-  color: #fff;
+button#reset:hover {
+  background: #d35400;
 }
 
 @media (max-width: 500px) {
   .info {
     flex-direction: column;
     gap: 10px;
+    align-items: center;
+  }
+
+  textarea {
+    height: 80px;
   }
 }
