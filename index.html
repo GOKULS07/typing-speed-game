@@ -3,26 +3,151 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Typing Speed Game</title>
-  <link rel="stylesheet" href="style.css"/>
+  <title>Typing Speed Challenge</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: #1e3c72; 
+      background: linear-gradient(to right, #2a5298, #1e3c72);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+    }
+
+    .container {
+      background: #2f4b7c;
+      padding: 2rem;
+      border-radius: 16px;
+      box-shadow: 0 0 20px rgba(0,0,0,0.2);
+      text-align: center;
+      color: white;
+      width: 90%;
+      max-width: 600px;
+    }
+
+    .title {
+      font-size: 1.8rem;
+      margin-bottom: 1rem;
+    }
+
+    .text-display {
+      background: #111;
+      padding: 1rem;
+      margin-bottom: 1rem;
+      border-radius: 8px;
+      color: #0f0;
+      min-height: 100px;
+    }
+
+    input[type="text"] {
+      width: 100%;
+      padding: 0.8rem;
+      font-size: 1rem;
+      border: none;
+      border-radius: 8px;
+      margin-bottom: 1rem;
+      outline: none;
+    }
+
+    .stats {
+      display: flex;
+      justify-content: space-around;
+      margin-bottom: 1rem;
+    }
+
+    .restart-btn {
+      background: #ff2e63;
+      color: white;
+      border: none;
+      padding: 0.8rem 1.5rem;
+      font-size: 1rem;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+
+    .restart-btn:hover {
+      background: #ff4c75;
+    }
+  </style>
 </head>
 <body>
   <div class="container">
-    <h1>🎯 Typing Speed Game</h1>
-
-    <div class="quote-box" id="quote"></div>
-
-    <textarea id="input" placeholder="Start typing here..." autofocus></textarea>
-
-    <div class="info">
-      <p><strong>⏳ Time:</strong> <span id="time">60</span>s</p>
-      <p><strong>✅ Score:</strong> <span id="score">0</span></p>
-      <p><strong>🚀 WPM:</strong> <span id="wpm">0</span></p>
+    <div class="title">🎯 Typing Speed Challenge</div>
+    <div class="text-display" id="text-display">Loading...</div>
+    <input type="text" id="input" placeholder="Start typing here..." disabled />
+    
+    <div class="stats">
+      <div>⏳ Time: <span id="time">60</span>s</div>
+      <div>🚀 WPM: <span id="wpm">0</span></div>
+      <div>✅ Score: <span id="score">0</span></div>
     </div>
 
-    <button id="reset">🔁 Restart Game</button>
+    <button class="restart-btn" id="restart">🔄 Restart Game</button>
   </div>
 
-  <script src="script.js"></script>
+  <script>
+    const textDisplay = document.getElementById("text-display");
+    const inputField = document.getElementById("input");
+    const timeDisplay = document.getElementById("time");
+    const wpmDisplay = document.getElementById("wpm");
+    const scoreDisplay = document.getElementById("score");
+    const restartButton = document.getElementById("restart");
+
+    let text = "";
+    let time = 60;
+    let timer;
+    let score = 0;
+    let started = false;
+
+    const sampleText = `The quick brown fox jumps over the lazy dog. Improve your typing speed by practicing daily. Accuracy is as important as speed.`;
+
+    function startGame() {
+      text = sampleText;
+      textDisplay.textContent = text;
+      inputField.value = "";
+      inputField.disabled = false;
+      inputField.focus();
+      time = 60;
+      score = 0;
+      started = false;
+      timeDisplay.textContent = time;
+      scoreDisplay.textContent = score;
+      wpmDisplay.textContent = 0;
+
+      clearInterval(timer);
+    }
+
+    function startTimer() {
+      if (started) return;
+      started = true;
+      timer = setInterval(() => {
+        time--;
+        timeDisplay.textContent = time;
+        if (time <= 0) {
+          clearInterval(timer);
+          inputField.disabled = true;
+        }
+      }, 1000);
+    }
+
+    inputField.addEventListener("input", () => {
+      startTimer();
+      const enteredText = inputField.value.trim();
+      const correctWords = enteredText.split(" ").filter(word => text.includes(word));
+      score = correctWords.length;
+      const wpm = Math.round((score / (60 - time + 1)) * 60);
+      scoreDisplay.textContent = score;
+      wpmDisplay.textContent = isNaN(wpm) ? 0 : wpm;
+    });
+
+    restartButton.addEventListener("click", () => {
+      startGame();
+    });
+
+    // Start on first load
+    window.onload = startGame;
+  </script>
 </body>
 </html>
