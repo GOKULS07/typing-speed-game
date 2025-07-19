@@ -10,14 +10,16 @@
   <div class="container">
     <h1>🎯 Typing Speed Challenge</h1>
     <div class="game-box">
-      <p id="quote" class="quote"></p>
+      <div class="quote-box">
+        <p id="quote" class="quote"></p>
+      </div>
       <textarea id="input" placeholder="Start typing here..."></textarea>
       <div class="info">
-        <p>⏳ Time: <span id="time">60</span>s</p>
-        <p>🧠 WPM: <span id="wpm">0</span></p>
-        <p>✅ Score: <span id="score">0</span></p>
+        <div><span>⏳ Time:</span> <span id="time">60</span>s</div>
+        <div><span>🚀 WPM:</span> <span id="wpm">0</span></div>
+        <div><span>✅ Score:</span> <span id="score">0</span></div>
       </div>
-      <button id="reset">🔁 Restart</button>
+      <button id="reset">🔁 Restart Game</button>
     </div>
   </div>
   <script src="script.js"></script>
